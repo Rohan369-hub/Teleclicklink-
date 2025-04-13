@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TeleClick Link</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d0e4ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: all 0.5s ease;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      animation: slideIn 1s ease-in-out;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .btn:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #timer, #finalTimer {
+      font-size: 2em;
+      color: #ff8800;
+      margin: 20px 0;
+    }
+
+    #telegramBtn {
+      display: none;
+      margin-top: 20px;
+      background-color: #0088cc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="page1">
+    <h2>Please click the button to get the link</h2>
+    <button class="btn" onclick="showPage(2)">Click to Continue</button>
+  </div>
+
+  <div class="container hidden" id="page2">
+    <h2>Link page is almost ready</h2>
+    <div id="timer">10 seconds</div>
+    <button class="btn" id="generateBtn" disabled onclick="showPage(3)">Please wait</button>
+  </div>
+
+  <div class="container hidden" id="page3">
+    <h2>Please wait for the link</h2>
+    <div id="finalTimer">5 seconds</div>
+    <button class="btn" id="telegramBtn" onclick="openTelegram()">Click to Telegram Link</button>
+  </div>
+
+  <script>
+    function showPage(pageNumber) {
+      document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+      const currentPage = document.getElementById(`page${pageNumber}`);
+      currentPage.classList.remove('hidden');
+      currentPage.classList.add('fadeIn');
+
+      if (pageNumber === 2) {
+        startMainTimer();
+      } else if (pageNumber === 3) {
+        startFinalTimer();
+      }
+    }
+
+    function startMainTimer() {
+      let seconds = 10;
+      const timer = document.getElementById('timer');
+      const button = document.getElementById('generateBtn');
+
+      const interval = setInterval(() => {
+        timer.textContent = `${seconds} seconds`;
+        seconds--;
+        if (seconds < 0) {
+          clearInterval(interval);
+          button.disabled = false;
+          button.textContent = "Generate the Link";
+        }
+      }, 1000);
+    }
+
+    function startFinalTimer() {
+      let seconds = 5;
+      const timer = document.getElementById('finalTimer');
+      const telegramBtn = document.getElementById('telegramBtn');
+
+      const interval = setInterval(() => {
+        timer.textContent = `${seconds} seconds`;
+        seconds--;
+        if (seconds < 0) {
+          clearInterval(interval);
+          timer.style.display = 'none';
+          telegramBtn.style.display = 'inline-block';
+        }
+      }, 1000);
+    }
+
+    function openTelegram() {
+      window.open("https://t.me/+7zkxGQH6poVmYzg1", "_blank");
+    }
+  </script>
+</body>
+</html>
